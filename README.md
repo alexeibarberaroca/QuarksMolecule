@@ -89,7 +89,7 @@ Publicado bajo licencia **GNU GPL v3**. Puedes usarlo, estudiarlo, modificarlo y
 
 <p align="center">
   Hecho con ⚗️ y curiosidad por <strong>Alexei Barberà Roca</strong><br>
-  <a href="https://www.linkedin.com/in/alexei-barbera-roca">LinkedIn</a> ·
+  <a href="https://www.linkedin.com/in/alexeibarberaroca">LinkedIn</a> ·
   <a href="https://github.com/alexeibarberaroca">GitHub</a> ·
   <a href="https://relativedevelopers.com/">Relative Developers</a>
 </p>
