@@ -1,67 +1,95 @@
-# QuarksMolecule procedure ⚗️
+<h1 align="center">QuarksMolecule 🧪</h1>
 
-# Description 🤓
-The **'QUARKS_MOLECULE'** procedure is a PL/SQL implementation that calculates various physical and chemical properties of a given molecule. It uses chemical element data stored in a table called **'ELEMENTS'**.
+<p align="center"><strong>Calcula las propiedades físicas y químicas de una molécula, hasta la masa de sus quarks, con PL/SQL sobre Oracle.</strong></p>
 
-# Parameters 🧠
-**'p_WEIGHT'**: Weight of the molecule.
+<p align="center">
+  <img alt="PL/SQL" src="https://img.shields.io/badge/PL%2FSQL-Oracle-f80000">
+  <img alt="Base de datos Oracle" src="https://img.shields.io/badge/Oracle-Database-f80000">
+  <img alt="Licencia GPL v3" src="https://img.shields.io/badge/licencia-GPLv3-22c55e">
+</p>
 
-**'p_MOLECULE'**: Chemical formula of the molecule.
+---
 
-# Variables 💭
-The procedure makes use of several variables to store different types of information, including the total atomic weight of the molecule, the number of moles, the number of molecules, the number of atoms of each element, the number of protons, the number of neutrons , among others.
+Escribe la fórmula de una molécula (por ejemplo `H2O`) y su peso, y **QuarksMolecule** calcula cuántos moles, moléculas y átomos hay, cuántos protones y neutrones, y la masa de los quarks *up* y *down* que los componen, en varias unidades (MeV/c², eV/c², julios/c² y kilogramos).
 
-# Auxiliary Functions and Procedures 📖
-The procedure uses several auxiliary functions to perform specific calculations, such as:
+Es un proyecto **íntegramente en PL/SQL**: toda la lógica vive en tablas, funciones y procedimientos de una base de datos **Oracle**. Nació como ejercicio para llevar la física de partículas al terreno de las bases de datos, durante mi formación en administración de sistemas.
 
-**'ELEMENT_ATOMIC_WEIGHT'**: Calculates the atomic weight of a given chemical element.
+> 🔬 **La versión moderna de esta idea** está integrada en **[AtomicWorld](https://relativedevelopers.com/atomicworld/)**, de Relative Developers, donde el cálculo es interactivo y en 3D. Este repositorio es la implementación original en base de datos.
 
-**'MOLS'**: Calculates the number of moles based on the weight of the molecule and its total atomic weight.
+---
 
-**'MOLECULES'**: Calculate the number of molecules based on the number of moles.
+## ✨ Qué calcula
 
-**'ATOMS'**: Calculates the number of atoms of an element based on the number of molecules and the subscript of the element in the molecule.
+A partir de una fórmula y un peso, para cada elemento de la molécula:
 
-**'PROTONS'**: Calculates the number of protons based on the number of atoms of an element.
+- **Masa atómica total** de la molécula y **número de moles**.
+- **Número de moléculas** y de **átomos** de cada elemento.
+- **Protones y neutrones** de cada elemento.
+- **Quarks up y down** de esos protones y neutrones.
+- **Conversión de masa** de los quarks: MeV/c² → eV/c² → J/c² → kg.
 
-**'QUARKSUP_PROTONS'**: Calculates the number of UP quarks in the protons of an element.
+También incluye funciones para **bases nitrogenadas y aminoácidos** (ADN/ARN): nombre y fórmula química de cada una.
 
-**'MeV_C2_QUARKSUP_PROTONS'**, **'eV_C2_QUARKSUP_PROTONS'**, **'J_C2_QUARKSUP_PROTONS'**, **'Kg_C2_QUARKSUP_PROTONS'**, **'Kg_QUARKSUP_PROTONS'**: Convert the number of UP quarks in the protons of an element to different units of energy and mass.
+---
 
-**'QUARKSDOWN_PROTONS'**: Calculates the number of DOWN quarks in the protons of an element.
+## 🧠 Cómo está organizado
 
-**'MeV_C2_QUARKSDOWN_PROTONS'**, **'eV_C2_QUARKSDOWN_PROTONS'**, **'J_C2_QUARKSDOWN_PROTONS'**, **'Kg_C2_QUARKSDOWN_PROTONS'**, **'Kg_QUARKSDOWN_PROTONS'**: Convert the number of DOWN quarks in the protons of an element to different units of energy and mass.
+```
+PL_SQL/
+├── Tables/          Elementos, partículas, subpartículas, bases nitrogenadas, aminoácidos...
+├── Functions/       Peso atómico, moles, moléculas, átomos, protones, neutrones y quarks
+├── Functions ARN/   Nombres y fórmulas de aminoácidos y bases nitrogenadas
+├── Procedures/      Los procedimientos principales + ejemplos de uso
+├── ALL_TABLES.sql   Crea todas las tablas de golpe
+├── ALL_FUNCTIONS.sql Crea todas las funciones de golpe
+└── DROP_TABLES.sql  Elimina las tablas
+```
 
-**'NEUTRONS'**: Calculates the number of neutrons based on the number of atoms of an element.
+Los datos no están inventados: las masas de los quarks, los electrones y demás subpartículas, y las masas atómicas de los elementos, están cargados como datos reales del Modelo Estándar y de la tabla periódica.
 
-**'QUARKSUP_NEUTRONS'**: Calculates the number of UP quarks in the neutrons of an element.
+---
 
-**'MeV_C2_QUARKSUP_NEUTRONS'**, **'eV_C2_QUARKSUP_NEUTRONS'**, **'J_C2_QUARKSUP_NEUTRONS'**, **'Kg_C2_QUARKSUP_NEUTRONS'**, **'Kg_QUARKSUP_NEUTRONS'**: Convert the number of UP quarks in the neutrons of an element to different energy and mass units.
+## 🚀 Puesta en marcha
 
-**'QUARKSDOWN_NEUTRONS'**: Calculates the number of DOWN quarks in the neutrons of an element.
+Necesitas una base de datos **Oracle** (por ejemplo Oracle XE) y un cliente como SQL\*Plus, SQL Developer o VS Code con la extensión de Oracle.
 
-**'MeV_C2_QUARKSDOWN_NEUTRONS'**, **'eV_C2_QUARKSDOWN_NEUTRONS'**, **'J_C2_QUARKSDOWN_NEUTRONS'**, **'Kg_C2_QUARKSDOWN_NEUTRONS'**, **'Kg_QUARKSDOWN_NEUTRONS'**: Convert the number of DOWN quarks in the neutrons of an element to different units of energy and mass.
+Ejecuta los scripts **en este orden**:
 
-# Procedure Logic 💡
-The procedure follows the following main steps:
+```sql
+@PL_SQL/ALL_TABLES.sql       -- 1. Crea las tablas y carga los datos
+@PL_SQL/ALL_FUNCTIONS.sql    -- 2. Crea las funciones
+@PL_SQL/Procedures/Subparticles_ChemicalFormulas.sql     -- 3. Crea el procedimiento
+```
 
-1. Verify that the chemical formula of the molecule begins with an alphabetic character.
-2. Divide the chemical formula into elements and subscripts.
-3. Calculate the total atomic weight of the molecule by adding the atomic weights of each element.
-4. Calculate the number of moles and molecules based on the weight of the molecule and its total atomic weight.
-5. For each element in the molecule:
+---
 
-   __·__ Calculate the number of atoms.
+## 🎮 Cómo se usa
 
-   __·__ Calculate the number of protons and UP/DOWN quarks in the protons.
+Activa la salida por pantalla y llama al procedimiento con el **peso** y la **fórmula**:
 
-   __·__ Calculate the number of neutrons and UP/DOWN quarks in the neutrons.
+```sql
+SET SERVEROUTPUT ON;
 
-# Exit 🚷
-The procedure prints to standard output (**'DBMS_OUTPUT.PUT_LINE'**) detailed information about the calculations performed, including the number of moles, molecules, atoms, protons, neutrons, and their respective conversions to different units of energy and mass.
+CALL Subparticles_ChemicalFormulas(1, 'H2O');
+CALL Subparticles_ChemicalFormulas(1, 'C5H5N5O1');
+CALL Subparticles_ChemicalFormulas(1, 'c77h120n18o26s');
+```
 
-# Observations 👀
-It is important to note that the procedure assumes that there is a table called **'ELEMENTS'** that contains information about the chemical elements, including their names, symbols, and other properties such as the number of protons and neutrons. Furthermore, the auxiliary functions and procedures used must be previously defined in the database.
+La fórmula debe **empezar por una letra** (símbolo de elemento). Hay más ejemplos, incluidos casos de uso incorrecto, en `PL_SQL/Procedures/Subparticles_ChemicalFormulas_Ejemplos.sql`.
 
-# Developer 🌎
-This procedure has been developed by [Alexei Barberà Roca] and is available for use and collaboration in [https://github.com/aluskabarbera/QuarksMolecule)https://github.com/aluskabarbera/QuarksMolecule].
+Para el ADN/ARN existe además `Subparticles_NitrogenousBases`, con su propio archivo de ejemplos.
+
+---
+
+## 📄 Licencia
+
+Publicado bajo licencia **GNU GPL v3**. Puedes usarlo, estudiarlo, modificarlo y redistribuirlo; las obras derivadas deben mantener la misma licencia.
+
+---
+
+<p align="center">
+  Hecho con ⚗️ y curiosidad por <strong>Alexei Barberà Roca</strong><br>
+  <a href="https://www.linkedin.com/in/alexei-barbera-roca">LinkedIn</a> ·
+  <a href="https://github.com/alexeibarbera">GitHub</a> ·
+  <a href="https://relativedevelopers.com/">Relative Developers</a>
+</p>
